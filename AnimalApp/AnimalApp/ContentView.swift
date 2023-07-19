@@ -10,12 +10,13 @@ import SwiftUI
 struct ContentView: View {
     
     var animals:[Animal] = AnimalList.animals
+    @State var searchText = ""
     
     var body: some View {
         
-        NavigationView {
-            
-            List(animals, id: \.id) { animal in
+        NavigationStack {
+            List(searchBar) {animal in
+            //List(animals, id: \.id) { animal in
                 
                 NavigationLink(destination: DetailView(animal: animal),
                                label: {
@@ -53,10 +54,23 @@ struct ContentView: View {
                     
                     
                     
-                }).navigationTitle("Animals")
+                })
+                .navigationTitle("Animals")
             }//end list
         }//end nav view
+        .searchable(text: $searchText, placement: .navigationBarDrawer(displayMode: .always), prompt: "Search by Animals!")
+        
     }//end body
+    
+    var searchBar: [Animal] {
+        if searchText.isEmpty {
+            return animals
+        } else {
+            return animals.filter{ $0.name.localizedCaseInsensitiveContains(searchText) }
+        }
+    }
+  
+    
 }//end view
     
     struct ContentView_Previews: PreviewProvider {
