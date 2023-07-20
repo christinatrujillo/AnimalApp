@@ -9,16 +9,15 @@ import Foundation
 import AVFoundation
 
 
-var player: AVAudioPlayer! // sound
+var player: AVAudioPlayer? // sound
 
-func playSound(key: String) {
-    let url = Bundle.main.url(forResource: key, withExtension: "mp3")
+func playSound() {
+    guard let url = Bundle.main.url(forResource: "Pig", withExtension: "mp3") else { return }
     
     do {
-        player = try AVAudioPlayer(contentsOf: url!)
+        player = try AVAudioPlayer(contentsOf: url)
         player?.play()
     } catch {
         print("error")
     }// end do/catch
 }
-    
